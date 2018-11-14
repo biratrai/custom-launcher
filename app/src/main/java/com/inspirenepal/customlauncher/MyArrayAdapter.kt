@@ -11,13 +11,18 @@ import android.widget.TextView
 class MyArrayAdapter(
     context: Context,
     resource: Int,
-    private val appInfoList: List<AppInfo>,
+    private var appInfoList: List<AppInfo>,
     private val layoutInflate: LayoutInflater
 ) : ArrayAdapter<AppInfo>(context, resource) {
 
+    fun setData(apps: List<AppInfo>) {
+        this.appInfoList = apps
+        notifyDataSetChanged()
+    }
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
-        var viewHolder: ViewHolderItem? = null
+        val viewHolder: ViewHolderItem?
 
         if (convertView == null) {
             convertView = layoutInflate.inflate(
@@ -29,17 +34,13 @@ class MyArrayAdapter(
             viewHolder.label = convertView.findViewById(R.id.txt_label)
 
             convertView.tag = viewHolder
-        } else {
-            viewHolder = convertView.tag as ViewHolderItem
-        }
+        } else viewHolder = convertView.tag as ViewHolderItem
 
         val appInfo = appInfoList[position]
 
-        if (appInfo != null) {
-            viewHolder.icon!!.setImageDrawable(appInfo.icon)
-            viewHolder.label!!.text = appInfo.label
-            viewHolder.name!!.text = appInfo.name
-        }
+        viewHolder.icon!!.setImageDrawable(appInfo.icon)
+        viewHolder.label!!.text = appInfo.label
+        viewHolder.name!!.text = appInfo.name
         return convertView
 
     }
