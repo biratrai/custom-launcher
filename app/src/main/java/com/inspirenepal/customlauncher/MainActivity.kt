@@ -3,6 +3,7 @@ package com.inspirenepal.customlauncher
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,8 +24,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadListView() {
+        recyclerView.layoutManager = GridLayoutManager(this, 4)
         adapter = MyArrayAdapter(this, apps)
-        gridAllApps.adapter = adapter
+        recyclerView.adapter = adapter
         adapter!!.notifyDataSetChanged()
     }
 
