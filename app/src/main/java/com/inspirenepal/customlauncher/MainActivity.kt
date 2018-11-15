@@ -3,6 +3,7 @@ package com.inspirenepal.customlauncher
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -14,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         loadApps()
-        loadListView()
 //        addGridListeners()
     }
 
@@ -23,8 +23,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadListView() {
-        adapter = MyArrayAdapter(this, R.layout.grid_items, apps, layoutInflater)
+        adapter = MyArrayAdapter(this, apps)
         gridAllApps.adapter = adapter
+        adapter!!.notifyDataSetChanged()
     }
 
     private fun loadApps() {
@@ -38,9 +39,12 @@ class MainActivity : AppCompatActivity() {
                 , resolveInfo.activityInfo.packageName
                 , resolveInfo.activityInfo.loadIcon(packageManager)
             )
+
+            Log.i("TAG", "Size of Apps $appInfo")
             apps.add(appInfo)
         }
-
+        Log.i("TAG", "Size of Apps" + apps.size)
+        loadListView()
     }
 
 }
